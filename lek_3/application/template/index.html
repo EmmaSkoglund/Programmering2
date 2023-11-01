@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block content %}
+    <form action="/se" method="POST">
+        <select class="form-select" aria-label="Select a country" name="country" id="country">
+        {% for country in countries %}
+            <option value="{{ country }}">{{ country }}</option>
+        {% endfor %}
+        </select>
+        <input type="submit" value="Submit" class="btn btn-secondary">
 
-</body>
-</html>
+    </form>
+
+{% endblock %}
