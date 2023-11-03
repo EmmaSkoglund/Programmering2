@@ -42,6 +42,7 @@ def index():
     "12": "December" 
     }
     
+    
     return render_template("index.html", month_mapping=month_mapping)
 
 
