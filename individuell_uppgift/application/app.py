@@ -20,6 +20,8 @@ länk : https://www.elprisetjustnu.se/elpris-api
 
 from flask import Flask, render_template, request
 import ssl, json, urllib
+import pandas as pd
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -66,7 +68,17 @@ def api_post():
             try:
                 json_data = urllib.request.urlopen(data_url, context=context).read()
                 data = json.loads(json_data)
-                return render_template('index.html', data=data)
+                df = pd.DataFrame(data)
+                
+                plt.figure(figsize=(10, 6))
+                plt.scatter(df['date'], df['localName'], marker='o', s=20, c='blue', label='Prisernas rörelse')
+                plt.xlabel('Tid')
+                plt.ylabel('Pris')
+                plt.title('Prisernas rörelse över tid')
+                plt.legend()
+                plt.savefig('static/plot.png')  # Spara diagrammet som en bildfil
+                return render_template('index.html', plot_url='/static/plot.png')
+            
             except urllib.error.HTTPError as e:
                 if e.code == 404:
                     return "Data not found. Please check your input."
